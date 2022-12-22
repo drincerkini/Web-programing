@@ -4,7 +4,7 @@ using SchoolManagmentSystem.Models;
 
 namespace SchoolManagmentSystem.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext: IdentityDbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -12,5 +12,6 @@ namespace SchoolManagmentSystem.Data
         }
         public DbSet<SchoolManagmentSystem.Models.Department> Department { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
+        public DbSet<Student>students { get; set; }
     }
 }
