@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using SchoolManagmentSystem.Models;
 
 namespace SchoolManagmentSystem.Data
 {
@@ -9,5 +10,6 @@ namespace SchoolManagmentSystem.Data
             : base(options)
         {
         }
+        public DbSet<SchoolManagmentSystem.Models.Department> Department { get; set; }
     }
 }
