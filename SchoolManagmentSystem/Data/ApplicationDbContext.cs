@@ -14,5 +14,6 @@ namespace SchoolManagmentSystem.Data
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<Student>Students { get; set; }
         public DbSet<Branch> Branches { get; set; }
+        public object Branch { get; internal set; }
     }
 }
