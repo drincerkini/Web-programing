@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Intrinsics.Arm;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SchoolManagmentSystem.Data;
 using SchoolManagmentSystem.Models;
+using X.PagedList;
 
 namespace SchoolManagmentSystem.Controllers
 {
@@ -20,20 +22,46 @@ namespace SchoolManagmentSystem.Controllers
         }
 
         // GET: Departments
-        public async Task<IActionResult> Index()
+        //  public async Task<IActionResult> Index()
+        // {
+        //     return View(await _context.Departments.ToListAsync());
+        // }
+
+        public ActionResult Index(string sortOrder, string searchString)
         {
-              return View(await _context.Department.ToListAsync());
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+  
+            var department = from d in _context.Departments
+                           select d;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                department = department.Where(d => d.Name.Contains(searchString)
+                                       || d.Description.Contains(searchString));
+            }
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    department = department.OrderByDescending(d => d.Name);
+                    break;
+                default:
+                    department = department.OrderBy(d => d.Name);
+                    break;
+            }
+            return View(department.ToList());
+
         }
+
 
         // GET: Departments/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Department == null)
+            if (id == null || _context.Departments == null)
             {
                 return NotFound();
             }
 
-            var department = await _context.Department
+            var department = await _context.Departments
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (department == null)
             {
@@ -54,7 +82,7 @@ namespace SchoolManagmentSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Name")] Department department)
+        public async Task<IActionResult> Create([Bind("ID,Name,Description")] Department department)
         {
             if (ModelState.IsValid)
             {
@@ -68,12 +96,12 @@ namespace SchoolManagmentSystem.Controllers
         // GET: Departments/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Department == null)
+            if (id == null || _context.Departments == null)
             {
                 return NotFound();
             }
 
-            var department = await _context.Department.FindAsync(id);
+            var department = await _context.Departments.FindAsync(id);
             if (department == null)
             {
                 return NotFound();
@@ -86,7 +114,7 @@ namespace SchoolManagmentSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Name")] Department department)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,Description")] Department department)
         {
             if (id != department.ID)
             {
@@ -119,12 +147,12 @@ namespace SchoolManagmentSystem.Controllers
         // GET: Departments/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Department == null)
+            if (id == null || _context.Departments == null)
             {
                 return NotFound();
             }
 
-            var department = await _context.Department
+            var department = await _context.Departments
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (department == null)
             {
@@ -139,14 +167,14 @@ namespace SchoolManagmentSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Department == null)
+            if (_context.Departments == null)
             {
                 return Problem("Entity set 'ApplicationDbContext.Department'  is null.");
             }
-            var department = await _context.Department.FindAsync(id);
+            var department = await _context.Departments.FindAsync(id);
             if (department != null)
             {
-                _context.Department.Remove(department);
+                _context.Departments.Remove(department);
             }
             
             await _context.SaveChangesAsync();
@@ -155,7 +183,7 @@ namespace SchoolManagmentSystem.Controllers
 
         private bool DepartmentExists(int id)
         {
-          return _context.Department.Any(e => e.ID == id);
+          return _context.Departments.Any(e => e.ID == id);
         }
     }
 }

@@ -10,8 +10,9 @@ namespace SchoolManagmentSystem.Data
             : base(options)
         {
         }
-        public DbSet<SchoolManagmentSystem.Models.Department> Department { get; set; }
+        public DbSet<Department> Departments { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
-        public DbSet<Student>students { get; set; }
+        public DbSet<Student>Students { get; set; }
+        public DbSet<Branch> Branches { get; set; }
     }
 }
