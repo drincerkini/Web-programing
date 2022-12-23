@@ -1,5 +1,4 @@
-﻿@model IEnumerable<SchoolManagmentSystem.Models.Teacher>
-
+﻿@model SchoolManagmentSystem.ViewModels.TeacherFilterViewModel
 @{
     ViewData["Title"] = "Index";
 }
@@ -9,23 +8,32 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+<p>
+    <select asp-for="TeacherGender" asp-items="Model.Gender">
+        <option value="">All</option>
+    </select>
+    Search: <input type="text" asp-for="SearchString" />
+    <input type="submit" value="Filter" />
+</p>
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FirstName)
+                @Html.DisplayNameFor(model => model.Teachers[0].FirstName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LastName)
+                @Html.DisplayNameFor(model => model.Teachers[0].LastName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.BirthDate)
+                @Html.DisplayNameFor(model => model.Teachers[0].Address)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.Teachers) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.FirstName)
