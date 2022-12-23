@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SchoolManagmentSystem.Data;
 using SchoolManagmentSystem.Models;
+using SchoolManagmentSystem.ViewModels;
 
 namespace SchoolManagmentSystem.Controllers
 {
@@ -20,9 +21,29 @@ namespace SchoolManagmentSystem.Controllers
         }
 
         // GET: Teachers
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string teachersGender, string searchString)
         {
-              return View(await _context.Teachers.ToListAsync());
+            IQueryable<char> genderQuery = from tc in _context.Teachers
+                                               orderby tc.Gender
+                                               select tc.Gender;
+            var teachers = from tc in _context.Teachers
+                           select tc;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                teachers = teachers.Where(tc => tc.FirstName!.Contains(searchString));
+            }
+            if (!string.IsNullOrEmpty(teachersGender))
+            {
+                teachers = teachers.Where(x => x.Gender.Equals(teachersGender));
+            }
+            var teachersGenderVM = new TeacherFilterViewModel
+            {
+                Genders = new SelectList(await genderQuery.Distinct().ToListAsync()),
+                Teachers = await teachers.ToListAsync()
+            };
+
+            return View(teachersGenderVM);
         }
 
         // GET: Teachers/Details/5
@@ -54,7 +75,7 @@ namespace SchoolManagmentSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,BirthDate")] Teacher teacher)
+        public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,BirthDate,HireDate,Address,Gender,PhoneNumber")] Teacher teacher)
         {
             if (ModelState.IsValid)
             {

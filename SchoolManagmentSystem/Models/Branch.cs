@@ -5,6 +5,7 @@ namespace SchoolManagmentSystem.Models
 {
     public class Branch
     {
+        [Key]
         public int ID { get; set; }
 
         [Required]
@@ -20,7 +21,7 @@ namespace SchoolManagmentSystem.Models
         public string Location { get; set; }
 
         [Required]
-        [DisplayName("CreatedDate")]
+        [DisplayName("Created Date")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}")]
         public DateTime CreatedDate { get; set; }

@@ -18,7 +18,7 @@ namespace SchoolManagmentSystem.Models
         public string Description { get; set; }
 
         [Required]
-        [DisplayName("CreatedDate")]
+        [DisplayName("Created Date")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}")]
         public DateTime CreatedDate { get; set; }
