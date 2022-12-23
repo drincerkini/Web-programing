@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SchoolManagmentSystem.Data;
 using SchoolManagmentSystem.Models;
+using SchoolManagmentSystem.ViewModels;
 
 namespace SchoolManagmentSystem.Controllers
 {
@@ -20,9 +21,33 @@ namespace SchoolManagmentSystem.Controllers
         }
 
         // GET: Branches
-        public async Task<IActionResult> Index()
+        //public async Task<IActionResult> Index()
+       // {
+       //       return View(await _context.Branches.ToListAsync());
+       // }
+        public async Task<IActionResult> Index(string branchLocation, string searchString)
         {
-              return View(await _context.Branches.ToListAsync());
+            IQueryable<string> locationQuery = from br in _context.Branches
+                                            orderby br.Location
+                                            select br.Location;
+            var branches = from br in _context.Branches
+                         select br;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                branches = branches.Where(br => br.Name!.Contains(searchString));
+            }
+            if (!string.IsNullOrEmpty(branchLocation))
+            {
+                branches = branches.Where(x => x.Location == branchLocation);
+            }
+            var branchLocationVM = new BranchLocationViewModel
+            {
+                Locations = new SelectList(await locationQuery.Distinct().ToListAsync()),
+                Branches = await branches.ToListAsync()
+            };
+
+            return View(branchLocationVM);
         }
 
         // GET: Branches/Details/5
