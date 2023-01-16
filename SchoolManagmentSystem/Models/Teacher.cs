@@ -3,12 +3,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SchoolManagmentSystem.Models
 {
-    public class Student
+    public class Teacher
     {
         [Key]
         public int ID { get; set; }
         [Required]
-        [StringLength(50, ErrorMessage ="First name cannot be longer than 50 characters")]
+        [StringLength(50, ErrorMessage = "First name cannot be longer than 50 characters")]
         public string Name { get; set; }
         [Required]
         [StringLength(50, ErrorMessage = "Surname name cannot be longer than 50 characters")]
@@ -17,14 +17,13 @@ namespace SchoolManagmentSystem.Models
         [EmailAddress]
         public string Email { get; set; }
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString ="{0:dd-MM-yyyy}")]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}")]
         [DisplayName("Birth Date")]
         public DateTime BirthDate { get; set; }
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}")]
-        [DisplayName("Registered Date")]
-        public DateTime RegisterDate { get; set; }
+        [DisplayName("Hire Date")]
+        public DateTime HireDate { get; set; }
         public string Address { get; set; }
-
     }
 }
