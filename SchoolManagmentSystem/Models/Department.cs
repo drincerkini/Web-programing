@@ -1,5 +1,6 @@
 ﻿using Microsoft.Build.Framework;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using RequiredAttribute = System.ComponentModel.DataAnnotations.RequiredAttribute;
 
 namespace SchoolManagmentSystem.Models
@@ -12,5 +13,12 @@ namespace SchoolManagmentSystem.Models
         [StringLength(25, ErrorMessage ="Name cannot be longer than 25 characters")]
         public string  Name { get; set; }
         public DateTime CreatedDate { get; set; }
+        // relationship
+        public int TeacherID { get; set; }
+        [ForeignKey("TeacherID")]
+        public Teacher? Teacher { get; set; }
+        public ICollection<Course>? Courses { get; set; }
+        
+
     }
 }

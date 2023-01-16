@@ -25,5 +25,10 @@ namespace SchoolManagmentSystem.Models
         [DisplayName("Hire Date")]
         public DateTime HireDate { get; set; }
         public string Address { get; set; }
+
+        // relationship
+        public ICollection<Course>? Courses { get; set; }
+
+        
     }
 }

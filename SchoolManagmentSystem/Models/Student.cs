@@ -26,5 +26,9 @@ namespace SchoolManagmentSystem.Models
         public DateTime RegisterDate { get; set; }
         public string Address { get; set; }
 
+        // relationship
+        public ICollection<Enrollment>? Enrollments { get; set; }
+
+
     }
 }
