@@ -22,9 +22,8 @@ namespace SchoolManagmentSystem.Controllers
         // GET: Assistants
         public async Task<IActionResult> Index()
         {
-              return _context.Assistants != null ? 
-                          View(await _context.Assistants.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Assistants'  is null.");
+            var applicationDbContext = _context.Assistants.Include(a => a.Professor);
+            return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Assistants/Details/5
@@ -36,6 +35,7 @@ namespace SchoolManagmentSystem.Controllers
             }
 
             var assistant = await _context.Assistants
+                .Include(a => a.Professor)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (assistant == null)
             {
@@ -48,6 +48,7 @@ namespace SchoolManagmentSystem.Controllers
         // GET: Assistants/Create
         public IActionResult Create()
         {
+            ViewData["ProfessorID"] = new SelectList(_context.Professors, "ID", "FullName");
             return View();
         }
 
@@ -56,7 +57,7 @@ namespace SchoolManagmentSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Name,Surname,Email,BirthDate,HireDate,Address")] Assistant assistant)
+        public async Task<IActionResult> Create([Bind("ID,Name,Surname,Email,BirthDate,HireDate,Address, ProfessorID")] Assistant assistant)
         {
             if (ModelState.IsValid)
             {
@@ -64,6 +65,7 @@ namespace SchoolManagmentSystem.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["ProfessorID"] = new SelectList(_context.Professors, "ID", "FullName", assistant.ProfessorID);
             return View(assistant);
         }
 
@@ -80,6 +82,7 @@ namespace SchoolManagmentSystem.Controllers
             {
                 return NotFound();
             }
+            ViewData["ProfessorID"] = new SelectList(_context.Professors, "ID", "FullName", assistant.ProfessorID);
             return View(assistant);
         }
 
@@ -88,7 +91,7 @@ namespace SchoolManagmentSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,Surname,Email,BirthDate,HireDate,Address")] Assistant assistant)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,Surname,Email,BirthDate,HireDate,Address, ProfessorID")] Assistant assistant)
         {
             if (id != assistant.ID)
             {
@@ -115,6 +118,7 @@ namespace SchoolManagmentSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["ProfessorID"] = new SelectList(_context.Professors, "ID", "FullName", assistant.ProfessorID);
             return View(assistant);
         }
 
@@ -127,6 +131,7 @@ namespace SchoolManagmentSystem.Controllers
             }
 
             var assistant = await _context.Assistants
+                .Include(assistant => assistant.ID)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (assistant == null)
             {

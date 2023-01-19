@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SchoolManagmentSystem.Models.Teacher>
+﻿@model IEnumerable<SchoolManagmentSystem.Models.Professor>
 
 @{
     ViewData["Title"] = "Index";
@@ -30,6 +30,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Address)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Assistant.FullName)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -54,6 +57,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Address)
             </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Assistant.FullName)
+                </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.ID">Details</a> |

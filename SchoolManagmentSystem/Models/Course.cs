@@ -20,6 +20,6 @@ namespace SchoolManagmentSystem.Models
         [ForeignKey("DepartmentID")]
         public Department? Department { get; set; }
         public ICollection<Enrollment>? Enrollments { get; set; }
-        public ICollection<Teacher>? Teachers { get; set; }
+        public ICollection<Professor>? Teachers { get; set; }
     }
 }

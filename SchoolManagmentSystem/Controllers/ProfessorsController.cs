@@ -10,85 +10,85 @@ using SchoolManagmentSystem.Models;
 
 namespace SchoolManagmentSystem.Controllers
 {
-    public class TeachersController : Controller
+    public class ProfessorsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public TeachersController(ApplicationDbContext context)
+        public ProfessorsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Teachers
+        // GET: Professors
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Teachers.ToListAsync());
+              return View(await _context.Professors.ToListAsync());
         }
 
-        // GET: Teachers/Details/5
+        // GET: Professors/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Teachers == null)
+            if (id == null || _context.Professors == null)
             {
                 return NotFound();
             }
 
-            var teacher = await _context.Teachers
+            var professor = await _context.Professors
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (teacher == null)
+            if (professor == null)
             {
                 return NotFound();
             }
 
-            return View(teacher);
+            return View(professor);
         }
 
-        // GET: Teachers/Create
+        // GET: Professors/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Teachers/Create
+        // POST: Professors/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Name,Surname,Email,BirthDate,HireDate,Address")] Teacher teacher)
+        public async Task<IActionResult> Create([Bind("ID,Name,Surname,Email,BirthDate,HireDate,Address")] Professor professor)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(teacher);
+                _context.Add(professor);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(teacher);
+            return View(professor);
         }
 
-        // GET: Teachers/Edit/5
+        // GET: Professors/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Teachers == null)
+            if (id == null || _context.Professors == null)
             {
                 return NotFound();
             }
 
-            var teacher = await _context.Teachers.FindAsync(id);
-            if (teacher == null)
+            var professor = await _context.Professors.FindAsync(id);
+            if (professor == null)
             {
                 return NotFound();
             }
-            return View(teacher);
+            return View(professor);
         }
 
-        // POST: Teachers/Edit/5
+        // POST: Professors/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,Surname,Email,BirthDate,HireDate,Address")] Teacher teacher)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,Surname,Email,BirthDate,HireDate,Address")] Professor professor)
         {
-            if (id != teacher.ID)
+            if (id != professor.ID)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace SchoolManagmentSystem.Controllers
             {
                 try
                 {
-                    _context.Update(teacher);
+                    _context.Update(professor);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TeacherExists(teacher.ID))
+                    if (!TeacherExists(professor.ID))
                     {
                         return NotFound();
                     }
@@ -113,40 +113,40 @@ namespace SchoolManagmentSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(teacher);
+            return View(professor);
         }
 
-        // GET: Teachers/Delete/5
+        // GET: Professors/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Teachers == null)
+            if (id == null || _context.Professors == null)
             {
                 return NotFound();
             }
 
-            var teacher = await _context.Teachers
+            var professor = await _context.Professors
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (teacher == null)
+            if (professor == null)
             {
                 return NotFound();
             }
 
-            return View(teacher);
+            return View(professor);
         }
 
-        // POST: Teachers/Delete/5
+        // POST: Professors/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Teachers == null)
+            if (_context.Professors == null)
             {
-                return Problem("Entity set 'ApplicationDbContext.Teachers'  is null.");
+                return Problem("Entity set 'ApplicationDbContext.Professors'  is null.");
             }
-            var teacher = await _context.Teachers.FindAsync(id);
-            if (teacher != null)
+            var professor = await _context.Professors.FindAsync(id);
+            if (professor != null)
             {
-                _context.Teachers.Remove(teacher);
+                _context.Professors.Remove(professor);
             }
             
             await _context.SaveChangesAsync();
@@ -155,7 +155,7 @@ namespace SchoolManagmentSystem.Controllers
 
         private bool TeacherExists(int id)
         {
-          return _context.Teachers.Any(e => e.ID == id);
+          return _context.Professors.Any(e => e.ID == id);
         }
     }
 }
