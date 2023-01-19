@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using SchoolManagmentSystem.Data;
 using SchoolManagmentSystem.Models;
@@ -20,9 +21,68 @@ namespace SchoolManagmentSystem.Controllers
         }
 
         // GET: Students
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string searchString, string currentFilter, int? pageNumber)
         {
-              return View(await _context.Students.ToListAsync());
+            {
+                ViewData["CurrentSort"] = sortOrder;
+                ViewData["NameSortParm"] = sortOrder == "Name" ? "name_desc" : "Name";
+                ViewData["SurnameSortParm"] = sortOrder == "Surname" ? "surname_desc" : "Surname";
+                ViewData["RegisterDateSortParm"] = sortOrder == "RegisterDate" ? "registerdate_desc" : "RegisterDate";
+                ViewData["BirthDateSortParm"] = sortOrder == "BirthDate" ? "birthdate_desc" : "BirthDate";
+
+                if (searchString != null)
+                {
+                    pageNumber = 1;
+                }
+                else
+                {
+                    searchString = currentFilter;
+                }
+
+                ViewData["CurrentFilter"] = searchString;
+
+                var students = from s in _context.Students
+                               select s;
+
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                    students = students.Where(s => s.Name.Contains(searchString)
+                                           || s.Surname.Contains(searchString));
+                }
+
+                switch (sortOrder)
+                {
+                    case "Name":
+                        students = students.OrderBy(s => s.Name);
+                        break;
+                    case "name_desc":
+                        students = students.OrderByDescending(s => s.Name);
+                        break;
+                    case "Surname":
+                        students = students.OrderBy(s => s.Surname);
+                        break;
+                    case "surname_desc":
+                        students = students.OrderByDescending(s => s.Surname);
+                        break;
+                    case "RegisterDate":
+                        students = students.OrderBy(s => s.RegisterDate);
+                        break;
+                    case "registerdate_desc":
+                        students = students.OrderByDescending(s => s.RegisterDate);
+                        break;
+                    case "BirthDate":
+                        students = students.OrderBy(s => s.BirthDate);
+                        break;
+                    case "birthdate_desc":
+                        students = students.OrderByDescending(s => s.BirthDate);
+                        break;
+                    default:
+                        students = students.OrderBy(s => s.Name);
+                        break;
+                }
+                
+                return View(await students.ToListAsync());
+            }
         }
 
         // GET: Students/Details/5
