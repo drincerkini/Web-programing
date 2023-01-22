@@ -80,8 +80,9 @@ namespace SchoolManagmentSystem.Controllers
                         students = students.OrderBy(s => s.Name);
                         break;
                 }
-                
-                return View(await students.ToListAsync());
+
+                int pageSize = 3;
+                return View(await PaginatedList<Student>.CreateAsync(students.AsNoTracking(), pageNumber ?? 1, pageSize));
             }
         }
 
