@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SchoolManagmentSystem.Data;
 
@@ -11,9 +12,10 @@ using SchoolManagmentSystem.Data;
 namespace SchoolManagmentSystem.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230123135230_CustomProperties")]
+    partial class CustomProperties
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,7 +36,7 @@ namespace SchoolManagmentSystem.Data.Migrations
 
                     b.HasIndex("TeachersID");
 
-                    b.ToTable("CourseProfessor", (string)null);
+                    b.ToTable("CourseProfessor");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -287,7 +289,7 @@ namespace SchoolManagmentSystem.Data.Migrations
                     b.HasIndex("ProfessorID")
                         .IsUnique();
 
-                    b.ToTable("Assistants", (string)null);
+                    b.ToTable("Assistants");
                 });
 
             modelBuilder.Entity("SchoolManagmentSystem.Models.Course", b =>
@@ -313,7 +315,7 @@ namespace SchoolManagmentSystem.Data.Migrations
 
                     b.HasIndex("DepartmentID");
 
-                    b.ToTable("Courses", (string)null);
+                    b.ToTable("Courses");
                 });
 
             modelBuilder.Entity("SchoolManagmentSystem.Models.Department", b =>
@@ -339,7 +341,7 @@ namespace SchoolManagmentSystem.Data.Migrations
 
                     b.HasIndex("ProfessorID");
 
-                    b.ToTable("Departments", (string)null);
+                    b.ToTable("Departments");
                 });
 
             modelBuilder.Entity("SchoolManagmentSystem.Models.Enrollment", b =>
@@ -365,7 +367,7 @@ namespace SchoolManagmentSystem.Data.Migrations
 
                     b.HasIndex("StudentID");
 
-                    b.ToTable("Enrollments", (string)null);
+                    b.ToTable("Enrollments");
                 });
 
             modelBuilder.Entity("SchoolManagmentSystem.Models.Professor", b =>
@@ -402,7 +404,7 @@ namespace SchoolManagmentSystem.Data.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Professors", (string)null);
+                    b.ToTable("Professors");
                 });
 
             modelBuilder.Entity("SchoolManagmentSystem.Models.Student", b =>
@@ -439,7 +441,7 @@ namespace SchoolManagmentSystem.Data.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Students", (string)null);
+                    b.ToTable("Students");
                 });
 
             modelBuilder.Entity("CourseProfessor", b =>
