@@ -1,10 +1,10 @@
 ﻿@{
     Layout = "_Layout";
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"]="Users";
 }
 
 <div class="text-center">
-    <form style="display:flex; flex-direction:column;  align-items:center"  asp-action="CreateRole" method="post" >
+    <form style="display:flex; flex-direction:column;  align-items:center" asp-area="Administrator" asp-controller="Adm" asp-action="CreateRole" method="post">
         <div class="form-group">
             <label style="font-size:20px" for="formGroupExampleInput">Create new role</label>
             <input class="form-control" style="width:400px; height:50px; border: 1px solid #202528" type="text" name="roleName" />
@@ -13,6 +13,7 @@
             <input class="btn btn-secondary" type="submit" name="submit" value="Add" />
         </div>
     </form>
+
     <table class="table">
 
         <thead>
@@ -51,7 +52,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <a type="button" class="btn btn-danger" asp-action="DeleteRole" asp-route-roleName="@role">Yes, remove</a>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -59,12 +60,6 @@
                     </td>
                 </tr>
             }
-
-
         </tbody>
     </table>
-
-
-
-   
 </div>

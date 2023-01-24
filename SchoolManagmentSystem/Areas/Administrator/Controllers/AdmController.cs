@@ -1,32 +1,28 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using SchoolManagmentSystem.Data;
 
-namespace SchoolManagmentSystem.Areas.Admin.Administrator
+namespace SchoolManagmentSystem.Areas.Administrator.Controllers
 {
-    [Area("Admin")]
-    public class AdminController : Controller
-    {
-        private readonly ILogger<AdminController> _logger;
+        [Area("Administrator")]
+        public class AdmController : Controller
+        {
+        
+        private readonly ILogger<AdmController> _logger;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly ApplicationDbContext context;
-        public AdminController(ILogger<AdminController> logger, RoleManager<IdentityRole> roleManager, ApplicationDbContext context)
+        public AdmController(ILogger<AdmController> logger, RoleManager<IdentityRole> roleManager, ApplicationDbContext context)
         {
             _logger = logger;
             this.roleManager = roleManager;
             this.context = context;
         }
+
         public IActionResult Index()
         {
             ViewBag.roles = roleManager.Roles.ToList();
-            return View();
-        }
+            return View("~/Areas/Administrator/Views/Adm/Index.cshtml");
 
-        public async Task<IActionResult> ListUsers()
-        {
-            var users = await context.Users.ToListAsync();
-            return View(users);
         }
 
         [HttpPost]
@@ -35,6 +31,7 @@ namespace SchoolManagmentSystem.Areas.Admin.Administrator
 
             if (!await roleManager.RoleExistsAsync(roleName))
             {
+                Console.WriteLine("Here");
                 if (!String.IsNullOrEmpty(roleName))
                 {
                     await roleManager.CreateAsync(new IdentityRole(roleName));
@@ -43,7 +40,7 @@ namespace SchoolManagmentSystem.Areas.Admin.Administrator
             return RedirectToAction(nameof(Index));
         }
 
-
+        [HttpDelete]
         public async Task<IActionResult> DeleteRole(string roleName)
         {
             if (!String.IsNullOrEmpty(roleName))
@@ -58,6 +55,6 @@ namespace SchoolManagmentSystem.Areas.Admin.Administrator
             return RedirectToAction(nameof(Index));
 
         }
-
+  
     }
 }
