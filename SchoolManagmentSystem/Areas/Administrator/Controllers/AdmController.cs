@@ -25,13 +25,18 @@ namespace SchoolManagmentSystem.Areas.Administrator.Controllers
 
         }
 
+        [HttpGet]
+        public IActionResult CreateRole()
+        {
+            return View();
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateRole(string roleName)
         {
 
             if (!await roleManager.RoleExistsAsync(roleName))
             {
-                Console.WriteLine("Here");
                 if (!String.IsNullOrEmpty(roleName))
                 {
                     await roleManager.CreateAsync(new IdentityRole(roleName));
