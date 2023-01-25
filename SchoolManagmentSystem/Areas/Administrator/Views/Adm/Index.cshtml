@@ -3,7 +3,13 @@
     ViewData["Title"]="Users";
 }
 
+<h1>Index</h1>
+
+<p>
+    <a asp-action="CreateRole">Create New</a>
+</p>
 <div class="text-center">
+<<<<<<< HEAD
     <form style="display:flex; flex-direction:column;  align-items:center" asp-area="Administrator" asp-action="CreateRole" method="post">
         <div class="form-group">
             <label style="font-size:20px" for="formGroupExampleInput">Create new role</label>
@@ -13,6 +19,8 @@
             <input class="btn btn-secondary" type="submit" name="submit" value="Add" />
         </div>
     </form>
+=======
+>>>>>>> 422e7dc2df4cfc76722c1f895522c37cda4af393
 
     <table class="table">
 
@@ -52,7 +60,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <a type="button" class="btn btn-danger" asp-action="DeleteRole" asp-route-roleName="@role">Yes, remove</a>
+                                        
                                     </div>
                                 </div>
                             </div>
