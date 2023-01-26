@@ -4,17 +4,10 @@ using SchoolManagmentSystem.Data;
 
 namespace SchoolManagmentSystem.Areas.Administrator.Controllers
 {
-<<<<<<< HEAD
-    [Area("Administrator")]
-    public class AdmController : Controller
-    {
-
-=======
         [Area("Administrator")]
         public class AdmController : Controller
         {
         
->>>>>>> 422e7dc2df4cfc76722c1f895522c37cda4af393
         private readonly ILogger<AdmController> _logger;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly ApplicationDbContext context;
@@ -29,14 +22,9 @@ namespace SchoolManagmentSystem.Areas.Administrator.Controllers
         {
             ViewBag.roles = roleManager.Roles.ToList();
             return View("~/Areas/Administrator/Views/Adm/Index.cshtml");
-<<<<<<< HEAD
-
-        }
-=======
 
         }
 
->>>>>>> 422e7dc2df4cfc76722c1f895522c37cda4af393
         [HttpGet]
         public IActionResult CreateRole()
         {
@@ -49,7 +37,6 @@ namespace SchoolManagmentSystem.Areas.Administrator.Controllers
 
             if (!await roleManager.RoleExistsAsync(roleName))
             {
-                Console.WriteLine("Here");
                 if (!String.IsNullOrEmpty(roleName))
                 {
                     await roleManager.CreateAsync(new IdentityRole(roleName));
@@ -67,7 +54,6 @@ namespace SchoolManagmentSystem.Areas.Administrator.Controllers
                 {
                     var role = await roleManager.FindByNameAsync(roleName);
                     await roleManager.DeleteAsync(role);
-                    await context.SaveChangesAsync();
                 }
             }
 
@@ -76,6 +62,4 @@ namespace SchoolManagmentSystem.Areas.Administrator.Controllers
         }
   
     }
-  
 }
-
