@@ -29,7 +29,6 @@
                 <td>@string.Join(" , ", user.Roles.ToList())</td>
                 <td>
                     <a class="btn btn-primary" asp-controller="Adm" asp-action="Manage" asp-route-userId="@user.UserId">Manage Roles</a>
-                    <a asp-action="Manage" asp-route-id="@user.UserId">Edit</a>
                 </td>
             </tr>
         }
