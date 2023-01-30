@@ -45,5 +45,10 @@ namespace SchoolManagmentSystem.Models
 
         public ICollection<Assistant>? Assistants { get; set; }
 
+        public int DepartmentID { get; set; }
+
+        [ForeignKey("DepartmentID")]
+        public Department? Department { get; set; }
+
     }
 }

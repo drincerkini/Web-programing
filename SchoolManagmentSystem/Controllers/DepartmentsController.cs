@@ -22,8 +22,7 @@ namespace SchoolManagmentSystem.Controllers
         // GET: Departments
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Departments.Include(d => d.Professor);
-            return View(await applicationDbContext.ToListAsync());
+            return View(await _context.Departments.ToListAsync());
         }
 
         // GET: Departments/Details/5
@@ -35,7 +34,6 @@ namespace SchoolManagmentSystem.Controllers
             }
 
             var department = await _context.Departments
-                .Include(d => d.Professor)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (department == null)
             {
@@ -57,7 +55,7 @@ namespace SchoolManagmentSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Name,CreatedDate,ProfessorID")] Department department)
+        public async Task<IActionResult> Create([Bind("ID,Name,CreatedDate")] Department department)
         {
             if (ModelState.IsValid)
             {
@@ -65,7 +63,6 @@ namespace SchoolManagmentSystem.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProfessorID"] = new SelectList(_context.Professors, "ID", "FullName", department.ProfessorID);
             return View(department);
         }
 
@@ -82,7 +79,6 @@ namespace SchoolManagmentSystem.Controllers
             {
                 return NotFound();
             }
-            ViewData["ProfessorID"] = new SelectList(_context.Professors, "ID", "FullName", department.ProfessorID);
             return View(department);
         }
 
@@ -91,7 +87,7 @@ namespace SchoolManagmentSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,CreatedDate,ProfessorID")] Department department)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,CreatedDate")] Department department)
         {
             if (id != department.ID)
             {
@@ -118,7 +114,6 @@ namespace SchoolManagmentSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProfessorID"] = new SelectList(_context.Professors, "ID", "FullName", department.ProfessorID);
             return View(department);
         }
 
@@ -131,7 +126,6 @@ namespace SchoolManagmentSystem.Controllers
             }
 
             var department = await _context.Departments
-                .Include(d => d.Professor)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (department == null)
             {
