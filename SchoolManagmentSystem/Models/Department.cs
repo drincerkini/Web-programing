@@ -19,10 +19,9 @@ namespace SchoolManagmentSystem.Models
         public DateTime CreatedDate { get; set; }
 
         // relationship
-        public int ProfessorID { get; set; }
-        [ForeignKey("ProfessorID")]
-        public Professor? Professor { get; set; }
+ 
         public ICollection<Course>? Courses { get; set; }
+        public ICollection<Professor>? Professors { get; set; }
         
 
     }

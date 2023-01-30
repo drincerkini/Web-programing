@@ -22,7 +22,8 @@ namespace SchoolManagmentSystem.Controllers
         // GET: Professors
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Professors.ToListAsync());
+            var applicationDbContext = _context.Professors.Include(p => p.Department);
+            return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Professors/Details/5
@@ -34,6 +35,7 @@ namespace SchoolManagmentSystem.Controllers
             }
 
             var professor = await _context.Professors
+                .Include(p => p.Department)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (professor == null)
             {
@@ -46,7 +48,7 @@ namespace SchoolManagmentSystem.Controllers
         // GET: Professors/Create
         public IActionResult Create()
         {
-            ViewData["AssistantID"] = new SelectList(_context.Assistants, "ID", "FullName");
+            ViewData["DepartmentID"] = new SelectList(_context.Departments, "ID", "Name");
             return View();
         }
 
@@ -55,7 +57,7 @@ namespace SchoolManagmentSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Name,Surname,Email,BirthDate,HireDate,Address")] Professor professor)
+        public async Task<IActionResult> Create([Bind("ID,Name,Surname,Email,BirthDate,HireDate,Address,DepartmentID")] Professor professor)
         {
             if (ModelState.IsValid)
             {
@@ -63,6 +65,7 @@ namespace SchoolManagmentSystem.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["DepartmentID"] = new SelectList(_context.Departments, "ID", "Name", professor.DepartmentID);
             return View(professor);
         }
 
@@ -79,6 +82,7 @@ namespace SchoolManagmentSystem.Controllers
             {
                 return NotFound();
             }
+            ViewData["DepartmentID"] = new SelectList(_context.Departments, "ID", "Name", professor.DepartmentID);
             return View(professor);
         }
 
@@ -87,7 +91,7 @@ namespace SchoolManagmentSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,Surname,Email,BirthDate,HireDate,Address")] Professor professor)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,Surname,Email,BirthDate,HireDate,Address,DepartmentID")] Professor professor)
         {
             if (id != professor.ID)
             {
@@ -114,6 +118,7 @@ namespace SchoolManagmentSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["DepartmentID"] = new SelectList(_context.Departments, "ID", "Name", professor.DepartmentID);
             return View(professor);
         }
 
@@ -126,6 +131,7 @@ namespace SchoolManagmentSystem.Controllers
             }
 
             var professor = await _context.Professors
+                .Include(professor=>professor.ID)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (professor == null)
             {
