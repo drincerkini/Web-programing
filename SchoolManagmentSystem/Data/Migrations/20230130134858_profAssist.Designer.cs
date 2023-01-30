@@ -12,8 +12,8 @@ using SchoolManagmentSystem.Data;
 namespace SchoolManagmentSystem.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230127014120_ProfAssist")]
-    partial class ProfAssist
+    [Migration("20230130134858_profAssist")]
+    partial class profAssist
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

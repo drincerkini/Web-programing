@@ -4,17 +4,13 @@
 
 namespace SchoolManagmentSystem.Data.Migrations
 {
-    public partial class ProfAssist : Migration
+    public partial class profAssist : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropIndex(
                 name: "IX_Assistants_ProfessorID",
                 table: "Assistants");
-
-            migrationBuilder.DropColumn(
-                name: "AssistantID",
-                table: "Professors");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Assistants_ProfessorID",
@@ -27,13 +23,6 @@ namespace SchoolManagmentSystem.Data.Migrations
             migrationBuilder.DropIndex(
                 name: "IX_Assistants_ProfessorID",
                 table: "Assistants");
-
-            migrationBuilder.AddColumn<int>(
-                name: "AssistantID",
-                table: "Professors",
-                type: "int",
-                nullable: false,
-                defaultValue: 0);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Assistants_ProfessorID",
