@@ -41,7 +41,9 @@ namespace SchoolManagmentSystem.Models
         // relationship
         public ICollection<Course>? Courses { get; set; }
 
-        public Assistant? Assistant { get; set; }
+        //   public int AssistantID { get; set; }
+
+        public ICollection<Assistant>? Assistants { get; set; }
 
     }
 }

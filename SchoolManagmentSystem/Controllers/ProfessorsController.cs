@@ -46,6 +46,7 @@ namespace SchoolManagmentSystem.Controllers
         // GET: Professors/Create
         public IActionResult Create()
         {
+            ViewData["AssistantID"] = new SelectList(_context.Assistants, "ID", "FullName");
             return View();
         }
 
