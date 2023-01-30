@@ -158,5 +158,16 @@ namespace SchoolManagmentSystem.Controllers
         {
           return _context.Departments.Any(e => e.ID == id);
         }
+
+
+        public async Task<IActionResult> DepProfessorList(int? id)
+        {
+            var professors = await _context.Professors
+                .Where(p => p.DepartmentID == id)
+                .ToListAsync();
+
+            return View(professors);
+        }
+
     }
 }

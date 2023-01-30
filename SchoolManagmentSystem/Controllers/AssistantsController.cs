@@ -82,6 +82,7 @@ namespace SchoolManagmentSystem.Controllers
 
             int pageSize = 3;
             return View(await PaginatedList<Assistant>.CreateAsync(assistants.Include(a => a.Professor).AsNoTracking(), pageNumber ?? 1, pageSize));
+        }
 
         // GET: Assistants/Details/5
         public async Task<IActionResult> Details(int? id)
