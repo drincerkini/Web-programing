@@ -30,7 +30,6 @@ namespace SchoolManagmentSystem.Areas.Administrator.Controllers
             return View(users);
         }
 
-        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
             ViewBag.roles = _roleManager.Roles.ToList();
