@@ -40,7 +40,7 @@ namespace SchoolManagmentSystem.Controllers
             ViewData["CurrentFilter"] = searchString;
 
 
-            var assistants = from a in _context.Assistants join p in _context.Professors on a.ProfessorID equals p.ID
+            var assistants = from a in _context.Assistants
                              select a;
 
             if (!String.IsNullOrEmpty(searchString))
@@ -82,9 +82,6 @@ namespace SchoolManagmentSystem.Controllers
 
             int pageSize = 3;
             return View(await PaginatedList<Assistant>.CreateAsync(assistants.Include(a => a.Professor).AsNoTracking(), pageNumber ?? 1, pageSize));
-            //var applicationDbContext = _context.Assistants.Include(a => a.Professor);
-            //return View(await applicationDbContext.ToListAsync());
-        }
 
         // GET: Assistants/Details/5
         public async Task<IActionResult> Details(int? id)
