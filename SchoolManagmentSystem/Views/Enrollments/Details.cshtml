@@ -10,24 +10,30 @@
     <h4>Enrollment</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Grade)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Student)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Grade)
-        </dd>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Student.FullName)
+        </dd>        
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Course)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Course.Title)
         </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Grade)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Grade)
+        </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Student)
+            @Html.DisplayNameFor(model => model.Student.Email)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Student.Email)
-        </dd>
+        </dd>  
     </dl>
 </div>
 <div>
