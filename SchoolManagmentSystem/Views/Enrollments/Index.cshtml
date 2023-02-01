@@ -37,9 +37,9 @@
                 @Html.DisplayFor(modelItem => item.Student.FullName)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.EnrollmentID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.EnrollmentID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.EnrollmentID">Delete</a>
+                <a class="btn btn-ligt text-secondary" asp-action="Edit" asp-route-id="@item.EnrollmentID">Edit</a> |
+                <a class="btn btn-ligt text-secondary" asp-action="Details" asp-route-id="@item.EnrollmentID">Details</a> |
+                <a class="btn btn-ligt text-danger" asp-action="Delete" asp-route-id="@item.EnrollmentID">Delete</a>
             </td>
         </tr>
 }

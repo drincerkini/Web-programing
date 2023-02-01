@@ -31,11 +31,11 @@
                 @Html.DisplayFor(modelItem => item.CreatedDate)
             </td>
             <td>
-                <a asp-action="DepProfessorList" asp-route-id="@item.ID">Display Professors</a> |
-                    <a asp-action="DepCourseList" asp-route-id="@item.ID">Display Courses</a> |
-                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                <a class="btn btn-ligt text-secondary" asp-action="DepProfessorList" asp-route-id="@item.ID">Display Professors</a> |
+                <a class="btn btn-ligt text-secondary" asp-action="DepCourseList" asp-route-id="@item.ID">Display Courses</a> |
+                <a class="btn btn-ligt text-secondary" asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                <a class="btn btn-ligt text-secondary" asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                <a class="btn btn-ligt text-danger" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
             </td>
         </tr>
 }
