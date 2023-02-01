@@ -164,6 +164,14 @@ namespace SchoolManagmentSystem.Controllers
         {
           return _context.Professors.Any(e => e.ID == id);
         }
+        public async Task<IActionResult> ProfAssistList(int? id)
+        {
+            var assistants = await _context.Assistants
+                .Where(a => a.ProfessorID == id)
+                .ToListAsync();
+
+            return View(assistants);
+        }
 
     }
 }
