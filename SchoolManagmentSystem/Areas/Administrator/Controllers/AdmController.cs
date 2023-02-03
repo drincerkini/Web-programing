@@ -24,16 +24,21 @@ namespace SchoolManagmentSystem.Areas.Administrator.Controllers
             _userManager = userManager;
         }
 
+        public IActionResult Index()
+        {
+            return View();
+        }
+
         public IActionResult ManageUsers()
         {
             var users = _userManager.Users.ToList();
             return View(users);
         }
 
-        public IActionResult Index()
+        public IActionResult RolesList()
         {
             ViewBag.roles = _roleManager.Roles.ToList();
-            return View("~/Areas/Administrator/Views/Adm/Index.cshtml");
+            return View();
 
         }
 
@@ -54,7 +59,7 @@ namespace SchoolManagmentSystem.Areas.Administrator.Controllers
                     await _roleManager.CreateAsync(new IdentityRole(roleName));
                 }
             }
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(RolesList));
         }
 
         [HttpDelete]
