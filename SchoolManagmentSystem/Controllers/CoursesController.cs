@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using SchoolManagmentSystem.Data;
 using SchoolManagmentSystem.Models;
@@ -20,11 +21,56 @@ namespace SchoolManagmentSystem.Controllers
         }
 
         // GET: Courses
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string searchString, string currentFilter, int? pageNumber)
         {
-            var applicationDbContext = _context.Courses.Include(c => c.Department);
-            return View(await applicationDbContext.ToListAsync());
+            {
+                ViewData["CurrentSort"] = sortOrder;
+                ViewData["TitleSortParm"] = sortOrder == "Title" ? "title_desc" : "Title";
+                ViewData["CreditsSortParm"] = sortOrder == "Credits" ? "credits_desc" : "Credits";
+
+                if (searchString != null)
+                {
+                    pageNumber = 1;
+                }
+                else
+                {
+                    searchString = currentFilter;
+                }
+
+                ViewData["CurrentFilter"] = searchString;
+
+
+                var courses = from c in _context.Courses
+                              select c;
+
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                    courses = courses.Where(c => c.Title.Contains(searchString));
+                }
+
+                switch (sortOrder)
+                {
+                    case "Title":
+                        courses = courses.OrderBy(c => c.Title);
+                        break;
+                    case "title_desc":
+                        courses = courses.OrderByDescending(c => c.Title);
+                        break;
+                    case "Credits":
+                        courses = courses.OrderBy(c => c.Credits);
+                        break;
+                    case "credits_desc":
+                        courses = courses.OrderByDescending(c => c.Credits);
+                        break;
+                    default:
+                        courses = courses.OrderBy(c => c.Title);
+                        break;
+                }
+
+                int pageSize = 5;
+                return View(await PaginatedList<Course>.CreateAsync(courses.Include(c => c.Department).AsNoTracking(), pageNumber ?? 1, pageSize));
         }
+            }
 
         // GET: Courses/Details/5
         public async Task<IActionResult> Details(int? id)

@@ -45,42 +45,42 @@ namespace SchoolManagmentSystem.Controllers
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                assistants = assistants.Where(s => s.Name.Contains(searchString)
-                                       || s.Surname.Contains(searchString));
+                assistants = assistants.Where(a => a.Name.Contains(searchString)
+                                       || a.Surname.Contains(searchString));
             }
 
             switch (sortOrder)
             {
                 case "Name":
-                    assistants = assistants.OrderBy(s => s.Name);
+                    assistants = assistants.OrderBy(a => a.Name);
                     break;
                 case "name_desc":
-                    assistants = assistants.OrderByDescending(s => s.Name);
+                    assistants = assistants.OrderByDescending(a => a.Name);
                     break;
                 case "Surname":
-                    assistants = assistants.OrderBy(s => s.Surname);
+                    assistants = assistants.OrderBy(a => a.Surname);
                     break;
                 case "surname_desc":
-                    assistants = assistants.OrderByDescending(s => s.Surname);
+                    assistants = assistants.OrderByDescending(a => a.Surname);
                     break;
-                case "RegisterDate":
-                    assistants = assistants.OrderBy(s => s.HireDate);
+                case "HireDate":
+                    assistants = assistants.OrderBy(a => a.HireDate);
                     break;
-                case "registerdate_desc":
-                    assistants = assistants.OrderByDescending(s => s.HireDate);
+                case "hiredate_desc":
+                    assistants = assistants.OrderByDescending(a => a.HireDate);
                     break;
                 case "BirthDate":
-                    assistants = assistants.OrderBy(s => s.BirthDate);
+                    assistants = assistants.OrderBy(a => a.BirthDate);
                     break;
                 case "birthdate_desc":
-                    assistants = assistants.OrderByDescending(s => s.BirthDate);
+                    assistants = assistants.OrderByDescending(a => a.BirthDate);
                     break;
                 default:
-                    assistants = assistants.OrderBy(s => s.Name);
+                    assistants = assistants.OrderBy(a => a.Name);
                     break;
             }
 
-            int pageSize = 3;
+            int pageSize = 5;
             return View(await PaginatedList<Assistant>.CreateAsync(assistants.Include(a => a.Professor).AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 

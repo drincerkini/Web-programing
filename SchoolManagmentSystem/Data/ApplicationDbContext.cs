@@ -18,6 +18,8 @@ namespace SchoolManagmentSystem.Data
         public DbSet<Enrollment> Enrollments { get; set; }
         public DbSet<Student> Students { get; set; }
         public DbSet<Professor> Professors { get; set; }
+        public DbSet<Branch> Branches { get; set; }
+        public DbSet<SchoolManagmentSystem.Models.DeptBranch> DeptBranch { get; set; }
 
 
         

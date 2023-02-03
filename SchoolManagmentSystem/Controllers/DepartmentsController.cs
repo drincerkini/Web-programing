@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using SchoolManagmentSystem.Data;
 using SchoolManagmentSystem.Models;
@@ -20,10 +21,56 @@ namespace SchoolManagmentSystem.Controllers
         }
 
         // GET: Departments
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string searchString, string currentFilter, int? pageNumber)
         {
-            return View(await _context.Departments.ToListAsync());
+            {
+                ViewData["CurrentSort"] = sortOrder;
+                ViewData["NameSortParm"] = sortOrder == "Name" ? "name_desc" : "Name";
+                ViewData["CreatedDateParm"] = sortOrder == "CreatedDate" ? "createddate_desc" : "CreatedDate";
+
+                if (searchString != null)
+                {
+                    pageNumber = 1;
+                }
+                else
+                {
+                    searchString = currentFilter;
+                }
+
+                ViewData["CurrentFilter"] = searchString;
+
+                var departments = from d in _context.Departments
+                               select d;
+
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                    departments = departments.Where(d => d.Name.Contains(searchString));
+                }
+
+                switch (sortOrder)
+                {
+                    case "Name":
+                        departments = departments.OrderBy(d => d.Name);
+                        break;
+                    case "name_desc":
+                        departments = departments.OrderByDescending(d => d.Name);
+                        break;
+                    case "CreatedDate":
+                        departments = departments.OrderBy(d => d.CreatedDate);
+                        break;
+                    case "createddate_desc":
+                        departments = departments.OrderByDescending(d => d.CreatedDate);
+                        break; 
+                    default:
+                        departments = departments.OrderBy(d => d.Name);
+                        break;
+                }
+
+                int pageSize = 5;
+                return View(await PaginatedList<Department>.CreateAsync(departments.AsNoTracking(), pageNumber ?? 1, pageSize));
+            }
         }
+        
 
         // GET: Departments/Details/5
         public async Task<IActionResult> Details(int? id)
