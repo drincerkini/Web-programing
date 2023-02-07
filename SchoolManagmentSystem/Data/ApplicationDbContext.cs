@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SchoolManagmentSystem.Models;
 using System.Reflection.Emit;
@@ -20,6 +20,7 @@ namespace SchoolManagmentSystem.Data
         public DbSet<Professor> Professors { get; set; }
         public DbSet<Branch> Branches { get; set; }
         public DbSet<SchoolManagmentSystem.Models.DeptBranch> DeptBranch { get; set; }
+        public DbSet<SchoolManagmentSystem.Models.Transcript>? Transcript { get; set; }
 
 
         
