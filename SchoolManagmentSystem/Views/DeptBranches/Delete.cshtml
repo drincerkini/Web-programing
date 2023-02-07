@@ -26,7 +26,8 @@
     </dl>
     
     <form asp-action="Delete">
-        <input type="hidden" asp-for="DeptBranchID" />
+        <input type="hidden" asp-for="DepartmentID" />
+        <input type="hidden" asp-for="BranchID" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>
     </form>

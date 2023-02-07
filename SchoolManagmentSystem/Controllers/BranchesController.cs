@@ -141,7 +141,7 @@ namespace SchoolManagmentSystem.Controllers
         {
             if (_context.Branches == null)
             {
-                return Problem("Entity set 'ApplicationDbContext.Branch'  is null.");
+                return Problem("Entity set 'ApplicationDbContext.Branches'  is null.");
             }
             var branch = await _context.Branches.FindAsync(id);
             if (branch != null)

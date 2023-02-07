@@ -22,6 +22,7 @@ namespace SchoolManagmentSystem.Models
  
         public ICollection<Course>? Courses { get; set; }
         public ICollection<Professor>? Professors { get; set; }
+        public virtual ICollection<DeptBranch>? DeptBranches { get; set; }
         
 
     }

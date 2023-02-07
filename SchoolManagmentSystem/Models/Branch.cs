@@ -7,5 +7,7 @@
         public string Name { get; set; }
         public string Location { get; set; }
 
+        public virtual ICollection<DeptBranch>? DeptBranches { get; set; }
+
     }
 }
