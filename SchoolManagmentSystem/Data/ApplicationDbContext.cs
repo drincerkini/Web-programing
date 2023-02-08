@@ -19,10 +19,17 @@ namespace SchoolManagmentSystem.Data
         public DbSet<Student> Students { get; set; }
         public DbSet<Professor> Professors { get; set; }
         public DbSet<Branch> Branches { get; set; }
+        public DbSet<DeptBranch> DeptBranch { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            builder.Entity<DeptBranch>().HasKey(p => new { p.DepartmentID, p.BranchID });
         public DbSet<SchoolManagmentSystem.Models.DeptBranch> DeptBranch { get; set; }
         public DbSet<SchoolManagmentSystem.Models.Transcript>? Transcript { get; set; }
 
+        }
 
-        
+
     }
 }

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using SchoolManagmentSystem.Data;
 using SchoolManagmentSystem.Models;
@@ -40,7 +39,7 @@ namespace SchoolManagmentSystem.Controllers
                 ViewData["CurrentFilter"] = searchString;
 
                 var departments = from d in _context.Departments
-                               select d;
+                                  select d;
 
                 if (!String.IsNullOrEmpty(searchString))
                 {
@@ -60,7 +59,7 @@ namespace SchoolManagmentSystem.Controllers
                         break;
                     case "createddate_desc":
                         departments = departments.OrderByDescending(d => d.CreatedDate);
-                        break; 
+                        break;
                     default:
                         departments = departments.OrderBy(d => d.Name);
                         break;
@@ -70,8 +69,6 @@ namespace SchoolManagmentSystem.Controllers
                 return View(await PaginatedList<Department>.CreateAsync(departments.AsNoTracking(), pageNumber ?? 1, pageSize));
             }
         }
-        
-
         // GET: Departments/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -102,8 +99,9 @@ namespace SchoolManagmentSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Name,CreatedDate")] Department department)
+        public async Task<IActionResult> Create([Bind("ID,Name")] Department department)
         {
+            department.CreatedDate = DateTime.UtcNow;
             if (ModelState.IsValid)
             {
                 _context.Add(department);
@@ -205,9 +203,7 @@ namespace SchoolManagmentSystem.Controllers
         {
           return _context.Departments.Any(e => e.ID == id);
         }
-
-
-        public async Task<IActionResult> DepProfessorList(int? id)
+        public async Task<IActionResult> DepProfessorsList(int? id)
         {
             var professors = await _context.Professors
                 .Where(p => p.DepartmentID == id)
@@ -216,7 +212,7 @@ namespace SchoolManagmentSystem.Controllers
             return View(professors);
         }
 
-        public async Task<IActionResult> DepCourseList(int? id)
+        public async Task<IActionResult> DepCoursesList(int? id)
         {
             var courses = await _context.Courses
                 .Where(c => c.DepartmentID == id)
@@ -227,3 +223,4 @@ namespace SchoolManagmentSystem.Controllers
 
     }
 }
+

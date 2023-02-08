@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SchoolManagmentSystem.Data;
 
@@ -11,9 +12,10 @@ using SchoolManagmentSystem.Data;
 namespace SchoolManagmentSystem.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230207134718_DeptBranch")]
+    partial class DeptBranch
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -297,8 +299,9 @@ namespace SchoolManagmentSystem.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BranchID"), 1L, 1);
 
-                    b.Property<int>("Location")
-                        .HasColumnType("int");
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -478,32 +481,6 @@ namespace SchoolManagmentSystem.Data.Migrations
                     b.ToTable("Students");
                 });
 
-            modelBuilder.Entity("SchoolManagmentSystem.Models.Transcript", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
-
-                    b.Property<int>("CourseID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Grade")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StudentID")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("CourseID");
-
-                    b.HasIndex("StudentID");
-
-                    b.ToTable("Transcript");
-                });
-
             modelBuilder.Entity("CourseProfessor", b =>
                 {
                     b.HasOne("SchoolManagmentSystem.Models.Course", null)
@@ -644,25 +621,6 @@ namespace SchoolManagmentSystem.Data.Migrations
             modelBuilder.Entity("SchoolManagmentSystem.Models.Branch", b =>
                 {
                     b.Navigation("DeptBranches");
-                });
-
-            modelBuilder.Entity("SchoolManagmentSystem.Models.Transcript", b =>
-                {
-                    b.HasOne("SchoolManagmentSystem.Models.Course", "Course")
-                        .WithMany()
-                        .HasForeignKey("CourseID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SchoolManagmentSystem.Models.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("StudentID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Course");
-
-                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("SchoolManagmentSystem.Models.Course", b =>

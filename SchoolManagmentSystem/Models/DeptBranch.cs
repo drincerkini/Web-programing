@@ -1,18 +1,22 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SchoolManagmentSystem.Models
 {
     public class DeptBranch
     {
-        public int DeptBranchID { get; set; }
 
         //relationships
+        [Key]
+        [Column(Order =1)]
         public int DepartmentID { get; set; }
-        public int BranchID { get; set; }
-        [ForeignKey("DepartmentID")]
-        public Department? Department { get; set; }
-        [ForeignKey("BranchID")]
-        public Branch? Branch { get; set; }
+
+        [Key]
+        [Column(Order = 2)]
+        public int BranchID { get; set; }    
+
+        public virtual Department? Department { get; set; }
+        public virtual Branch? Branch { get; set; }
     }
 }
 

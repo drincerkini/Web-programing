@@ -37,7 +37,7 @@ namespace SchoolManagmentSystem.Controllers
             var deptBranch = await _context.DeptBranch
                 .Include(d => d.Branch)
                 .Include(d => d.Department)
-                .FirstOrDefaultAsync(m => m.DeptBranchID == id);
+                .FirstOrDefaultAsync(m => m.DepartmentID == id);
             if (deptBranch == null)
             {
                 return NotFound();
@@ -49,7 +49,7 @@ namespace SchoolManagmentSystem.Controllers
         // GET: DeptBranches/Create
         public IActionResult Create()
         {
-            ViewData["BranchID"] = new SelectList(_context.Branches, "BranchID", "BranchID");
+            ViewData["BranchID"] = new SelectList(_context.Branches, "BranchID", "Name");
             ViewData["DepartmentID"] = new SelectList(_context.Departments, "ID", "Name");
             return View();
         }
@@ -59,7 +59,7 @@ namespace SchoolManagmentSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("DeptBranchID,DepartmentID,BranchID")] DeptBranch deptBranch)
+        public async Task<IActionResult> Create([Bind("DepartmentID,BranchID")] DeptBranch deptBranch)
         {
             if (ModelState.IsValid)
             {
@@ -67,7 +67,7 @@ namespace SchoolManagmentSystem.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BranchID"] = new SelectList(_context.Branches, "BranchID", "BranchID", deptBranch.BranchID);
+            ViewData["BranchID"] = new SelectList(_context.Branches, "BranchID", "Name", deptBranch.BranchID);
             ViewData["DepartmentID"] = new SelectList(_context.Departments, "ID", "Name", deptBranch.DepartmentID);
             return View(deptBranch);
         }
@@ -85,7 +85,7 @@ namespace SchoolManagmentSystem.Controllers
             {
                 return NotFound();
             }
-            ViewData["BranchID"] = new SelectList(_context.Branches, "BranchID", "BranchID", deptBranch.BranchID);
+            ViewData["BranchID"] = new SelectList(_context.Branches, "BranchID", "Name", deptBranch.BranchID);
             ViewData["DepartmentID"] = new SelectList(_context.Departments, "ID", "Name", deptBranch.DepartmentID);
             return View(deptBranch);
         }
@@ -95,9 +95,9 @@ namespace SchoolManagmentSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("DeptBranchID,DepartmentID,BranchID")] DeptBranch deptBranch)
+        public async Task<IActionResult> Edit(int id, [Bind("DepartmentID,BranchID")] DeptBranch deptBranch)
         {
-            if (id != deptBranch.DeptBranchID)
+            if (id != deptBranch.DepartmentID)
             {
                 return NotFound();
             }
@@ -111,7 +111,7 @@ namespace SchoolManagmentSystem.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DeptBranchExists(deptBranch.DeptBranchID))
+                    if (!DeptBranchExists(deptBranch.DepartmentID))
                     {
                         return NotFound();
                     }
@@ -138,7 +138,7 @@ namespace SchoolManagmentSystem.Controllers
             var deptBranch = await _context.DeptBranch
                 .Include(d => d.Branch)
                 .Include(d => d.Department)
-                .FirstOrDefaultAsync(m => m.DeptBranchID == id);
+                .FirstOrDefaultAsync(m => m.DepartmentID == id);
             if (deptBranch == null)
             {
                 return NotFound();
@@ -168,7 +168,7 @@ namespace SchoolManagmentSystem.Controllers
 
         private bool DeptBranchExists(int id)
         {
-          return _context.DeptBranch.Any(e => e.DeptBranchID == id);
+          return _context.DeptBranch.Any(e => e.DepartmentID == id);
         }
     }
 }

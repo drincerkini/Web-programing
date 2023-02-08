@@ -4,23 +4,23 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Departments</h1>
+<h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Create New Department</a>
 </p>
 
 <form asp-action="Index" method="get">
     <div class="form-actions no-color">
         <p>
-            Find Student: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
+            Find Departments: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
             <input type="submit" value="Search" class="btn btn-default" /> |
             <a asp-action="Index">Back to Full List</a>
         </p>
     </div>
 </form>
 
-<table class="table table-light table-striped">
+<table class="table table-striped">
     <thead>
         <tr>
             <th>
@@ -28,7 +28,7 @@
             </th>
             <th>
                 <a asp-action="Index" asp-route-sortOrder="@ViewData["CreatedDateParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">@Html.DisplayNameFor(model => model[0].CreatedDate)</a>
-            </th>           
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -42,11 +42,11 @@
                 @Html.DisplayFor(modelItem => item.CreatedDate)
             </td>
             <td>
-                <a class="btn btn-ligt text-secondary" asp-action="DepProfessorList" asp-route-id="@item.ID">Display Professors</a> |
-                <a class="btn btn-ligt text-secondary" asp-action="DepCourseList" asp-route-id="@item.ID">Display Courses</a> |
-                <a class="btn btn-ligt text-secondary" asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                <a class="btn btn-ligt text-secondary" asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                <a class="btn btn-ligt text-danger" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                    <a class="btn btn-ligt text-secondary" asp-action="DepProfessorsList" asp-route-id="@item.ID">Show Professors</a>
+                    <a class="btn btn-ligt text-secondary" asp-action="DepCoursesList" asp-route-id="@item.ID">Show Courses</a>
+                    <a class="btn btn-ligt text-secondary" asp-action="Edit"    asp-route-id="@item.ID">Edit</a> 
+                    <a class="btn btn-ligt text-secondary" asp-action="Details" asp-route-id="@item.ID">Details</a>
+                    <a class="btn btn-ligt text-danger"    asp-action="Delete"  asp-route-id="@item.ID">Delete</a>
             </td>
         </tr>
 }
