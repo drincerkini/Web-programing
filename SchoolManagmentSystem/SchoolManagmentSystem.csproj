@@ -35,8 +35,4 @@
     <Folder Include="Areas\Administrator\Data\" />
     <Folder Include="Areas\Administrator\Models\" />
   </ItemGroup>
-
-  <ItemGroup>
-    <None Include="wwwroot\css\images\smis.jpeg" />
-  </ItemGroup>
 </Project>
