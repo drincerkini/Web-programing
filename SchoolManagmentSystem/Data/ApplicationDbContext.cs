@@ -20,15 +20,12 @@ namespace SchoolManagmentSystem.Data
         public DbSet<Professor> Professors { get; set; }
         public DbSet<Branch> Branches { get; set; }
         public DbSet<DeptBranch> DeptBranch { get; set; }
+        public DbSet<Transcript> Transcript { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
             builder.Entity<DeptBranch>().HasKey(p => new { p.DepartmentID, p.BranchID });
         }
-        public DbSet<Transcript>? Transcript { get; set; }
-
-        }
-
-
     }
+}
