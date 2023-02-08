@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using SchoolManagmentSystem.Models;
 
 namespace SchoolManagmentSystem.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class DepartmentsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -19,6 +21,7 @@ namespace SchoolManagmentSystem.Controllers
             _context = context;
         }
 
+        [AllowAnonymous]
         // GET: Departments
         public async Task<IActionResult> Index(string sortOrder, string searchString, string currentFilter, int? pageNumber)
         {
@@ -203,6 +206,8 @@ namespace SchoolManagmentSystem.Controllers
         {
           return _context.Departments.Any(e => e.ID == id);
         }
+
+        [AllowAnonymous]
         public async Task<IActionResult> DepProfessorsList(int? id)
         {
             var professors = await _context.Professors
@@ -212,6 +217,7 @@ namespace SchoolManagmentSystem.Controllers
             return View(professors);
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> DepCoursesList(int? id)
         {
             var courses = await _context.Courses

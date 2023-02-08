@@ -45,9 +45,11 @@
                 @Html.DisplayFor(modelItem => item.Course.Title)
             </td>
             <td>
+                    @(User.IsInRole("Admin")){
                 <a class="btn btn-ligt text-secondary" asp-action="Edit" asp-route-id="@item.EnrollmentID">Edit</a> |
                 <a class="btn btn-ligt text-secondary" asp-action="Details" asp-route-id="@item.EnrollmentID">Details</a> |
                 <a class="btn btn-ligt text-danger" asp-action="Delete" asp-route-id="@item.EnrollmentID">Delete</a>
+                    }
             </td>
         </tr>
 }
