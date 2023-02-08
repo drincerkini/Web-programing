@@ -13,7 +13,7 @@
 <form asp-action="Index" method="get">
     <div class="form-actions no-color">
         <p>
-            Find Courses: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
+            Find Enrollments: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
             <input type="submit" value="Search" class="btn btn-default" /> |
             <a asp-action="Index">Back to Full List</a>
         </p>
@@ -25,11 +25,11 @@
     <thead>
         <tr>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["StudentSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">@Html.DisplayNameFor(model => model[0].Student.Name)</a>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["StudentSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">@Html.DisplayNameFor(model => model[0].Student)</a>
 
             </th>
              <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["CourseSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">@Html.DisplayNameFor(model => model[0].Course.Title)</a>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["CourseSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">@Html.DisplayNameFor(model => model[0].Course)</a>
 
             </th>
             <th></th>

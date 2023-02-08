@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using SchoolManagmentSystem.Data;
 using SchoolManagmentSystem.Models;
@@ -20,10 +21,62 @@ namespace SchoolManagmentSystem.Controllers
         }
 
         // GET: Transcripts
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string searchString, string currentFilter, int? pageNumber)
         {
-            var applicationDbContext = _context.Transcript.Include(t => t.Course).Include(t => t.Student);
-            return View(await applicationDbContext.ToListAsync());
+            {
+                ViewData["CurrentSort"] = sortOrder;
+                ViewData["GradeSortParm"] = sortOrder == "Grade" ? "grade_desc" : "Grade";
+                ViewData["StudentSortParm"] = sortOrder == "Student" ? "student_desc" : "Student";
+                ViewData["CourseSortParm"] = sortOrder == "Course" ? "course_desc" : "Course";
+
+                if (searchString != null)
+                {
+                    pageNumber = 1;
+                }
+                else
+                {
+                    searchString = currentFilter;
+                }
+
+                ViewData["CurrentFilter"] = searchString;
+
+
+                var transcripts = from t in _context.Transcript
+                              select t;
+
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                    transcripts = transcripts.Where(t => t.Student.Name.Contains(searchString) || t.Course.Title.Contains(searchString));
+                }
+
+                switch (sortOrder)
+                {
+                    case "Grade":
+                        transcripts = transcripts.OrderBy(t => t.Grade);
+                        break;
+                    case "grade_desc":
+                        transcripts = transcripts.OrderByDescending(t => t.Grade);
+                        break;
+                    case "Student":
+                        transcripts = transcripts.OrderBy(t => t.Student.Name);
+                        break;
+                    case "student_desc":
+                        transcripts = transcripts.OrderByDescending(t => t.Student.Name);
+                        break;
+                    case "Course":
+                        transcripts = transcripts.OrderBy(t => t.Course.Title);
+                        break;
+                    case "course_desc":
+                        transcripts = transcripts.OrderByDescending(t => t.Course.Title);
+                        break;
+                    default:
+                        transcripts = transcripts.OrderBy(t => t.Course.Title);
+                        break;
+                }
+
+                int pageSize = 5;
+                return View(await PaginatedList<Transcript>.CreateAsync(transcripts.Include(t => t.Course).Include(t => t.Student).AsNoTracking(), pageNumber ?? 1, pageSize));
+            }    
         }
 
         // GET: Transcripts/Details/5
@@ -50,7 +103,7 @@ namespace SchoolManagmentSystem.Controllers
         public IActionResult Create()
         {
             ViewData["CourseID"] = new SelectList(_context.Courses, "CourseID", "Title");
-            ViewData["StudentID"] = new SelectList(_context.Students, "ID", "Email");
+            ViewData["StudentID"] = new SelectList(_context.Students, "ID", "FullName");
             return View();
         }
 
@@ -68,7 +121,7 @@ namespace SchoolManagmentSystem.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CourseID"] = new SelectList(_context.Courses, "CourseID", "Title", transcript.CourseID);
-            ViewData["StudentID"] = new SelectList(_context.Students, "ID", "Email", transcript.StudentID);
+            ViewData["StudentID"] = new SelectList(_context.Students, "ID", "FullName", transcript.StudentID);
             return View(transcript);
         }
 
@@ -86,7 +139,7 @@ namespace SchoolManagmentSystem.Controllers
                 return NotFound();
             }
             ViewData["CourseID"] = new SelectList(_context.Courses, "CourseID", "Title", transcript.CourseID);
-            ViewData["StudentID"] = new SelectList(_context.Students, "ID", "Email", transcript.StudentID);
+            ViewData["StudentID"] = new SelectList(_context.Students, "ID", "FullName", transcript.StudentID);
             return View(transcript);
         }
 
@@ -123,7 +176,7 @@ namespace SchoolManagmentSystem.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CourseID"] = new SelectList(_context.Courses, "CourseID", "Title", transcript.CourseID);
-            ViewData["StudentID"] = new SelectList(_context.Students, "ID", "Email", transcript.StudentID);
+            ViewData["StudentID"] = new SelectList(_context.Students, "ID", "FullName", transcript.StudentID);
             return View(transcript);
         }
 
