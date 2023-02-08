@@ -32,15 +32,15 @@
             <div class="row">
               <div class="col-md-6 mb-4">
                 <div class="form-outline">
-                <input asp-for="Input.FirstName" class="form-control" autocomplete="username" aria-required="true" />
-                <label asp-for="Input.FirstName"></label>
+                <input asp-for="Input.FirstName" class="form-control" aria-required="true" placeholder="First Name"/>
+                
                 <span asp-validation-for="Input.FirstName" class="text-danger"></span>
                 </div>
               </div>
               <div class="col-md-6 mb-4">
                 <div class="form-outline">
-                <input asp-for="Input.LastName" class="form-control" autocomplete="username" aria-required="true" />
-                <label asp-for="Input.LastName"></label>
+                <input asp-for="Input.LastName" class="form-control" autocomplete="username" aria-required="true" placeholder="Last Name" />
+               
                 <span asp-validation-for="Input.LastName" class="text-danger"></span>
                 </div>
               </div>
@@ -48,22 +48,22 @@
 
             <!-- Email input -->
             <div class="form-outline mb-4">
-              <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
-               <label asp-for="Input.Email"></label>
+              <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="Email" />
+              
                <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
 
             <!-- Password input -->
             <div class="form-outline mb-4">
-               <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" />
-                <label asp-for="Input.Password"></label>
+               <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Password" />
+              
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
             </div>
     
  <!-- Confirm Password -->
          <div class="form-outline mb-4">
-                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" />
-                <label asp-for="Input.ConfirmPassword"></label>
+                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Confirm Password"/>
+           
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
 
@@ -73,7 +73,7 @@
 
             <!-- Register buttons -->
             <div class="text-center">
-              <p>or sign up with:</p>
+             
               <button type="button" class="btn btn-link btn-floating mx-1">
                 <i class="fab fa-facebook-f"></i>
               </button>
