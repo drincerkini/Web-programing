@@ -25,11 +25,10 @@ namespace SchoolManagmentSystem.Data
         {
             base.OnModelCreating(builder);
             builder.Entity<DeptBranch>().HasKey(p => new { p.DepartmentID, p.BranchID });
-        public DbSet<SchoolManagmentSystem.Models.DeptBranch> DeptBranch { get; set; }
-        public DbSet<SchoolManagmentSystem.Models.Transcript>? Transcript { get; set; }
+        }
+        public DbSet<Transcript>? Transcript { get; set; }
 
         }
 
 
     }
-}
