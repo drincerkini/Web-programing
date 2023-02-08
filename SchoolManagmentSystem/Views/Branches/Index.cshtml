@@ -4,21 +4,27 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Branches</h1>
+
+<h1 class="text-center">Branches</h1>
+
+<div class="container d-flex justify-content-between">
 
 <p>
     <a asp-action="Create">Create New Branch</a>
 </p>
 
 <form asp-action="Index" method="get">
-    <div class="form-actions no-color">
-        <p>
-            Find Branches: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
-            <input type="submit" value="Search" class="btn btn-default" /> |
-            <a asp-action="Index">Back to Full List</a>
-        </p>
+        <div class="input-group">
+        <div class="form-outline">
+            <input type="search" id="form1" class="form-control" name="SearchString" value="@ViewData["CurrentFilter"]" placeholder="Search Branches"/>
+        </div>
+        <button type="submit" class="btn btn-light">
+            Search
+        </button>
     </div>
+            <a asp-action="Index">Back to Full List</a>
 </form>
+</div>
 
 
 <table class="table">
@@ -50,9 +56,9 @@
             </td>
             <td>
                     @(User.IsInRole("Admin")){
-                <a asp-action="Edit" asp-route-id="@item.BranchID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.BranchID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.BranchID">Delete</a>
+                <a  class="btn btn-ligt text-secondary" asp-action="Edit" asp-route-id="@item.BranchID">Edit</a> |
+                <a  class="btn btn-ligt text-secondary" asp-action="Details" asp-route-id="@item.BranchID">Details</a> |
+                <a  class="btn btn-ligt text-danger"    asp-action="Delete" asp-route-id="@item.BranchID">Delete</a>
                     }
             </td>
         </tr>

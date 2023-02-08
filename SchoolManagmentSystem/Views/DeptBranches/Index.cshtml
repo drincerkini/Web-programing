@@ -4,7 +4,10 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Departments & Branches</h1>
+
+<h1 class="text-center">Departments & Branches</h1>
+
+<div class="container d-flex justify-content-between">
 
 <p>
     <a asp-action="Create">Create New Relation</a>
@@ -12,17 +15,20 @@
 
 
 <form asp-action="Index" method="get">
-    <div class="form-actions no-color">
-        <p>
-            Find Relations: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
-            <input type="submit" value="Search" class="btn btn-default" /> |
-            <a asp-action="Index">Back to Full List</a>
-        </p>
+     <div class="input-group">
+        <div class="form-outline">
+            <input type="search" id="form1" class="form-control" name="SearchString" value="@ViewData["CurrentFilter"]" placeholder="Search Relations"/>
+        </div>
+        <button type="submit" class="btn btn-light">
+            Search
+        </button>
     </div>
+            <a asp-action="Index">Back to Full List</a>
 </form>
+</div>
 
 
-<table class="table">
+<table class="table table-striped">
     <thead>
         <tr>
             <th>
