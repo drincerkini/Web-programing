@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using SchoolManagmentSystem.Data;
 using SchoolManagmentSystem.Models;
@@ -20,9 +21,54 @@ namespace SchoolManagmentSystem.Controllers
         }
 
         // GET: Branches
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string searchString, string currentFilter, int? pageNumber)
         {
-              return View(await _context.Branches.ToListAsync());
+            {
+                ViewData["CurrentSort"] = sortOrder;
+                ViewData["NameSortParm"] = sortOrder == "Name" ? "name_desc" : "Name";
+                ViewData["LocationSortParm"] = sortOrder == "Location" ? "location_desc" : "Location";
+
+                if (searchString != null)
+                {
+                    pageNumber = 1;
+                }
+                else
+                {
+                    searchString = currentFilter;
+                }
+
+                ViewData["CurrentFilter"] = searchString;
+
+                var branches = from b in _context.Branches
+                                  select b;
+
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                    branches = branches.Where(b => b.Name.Contains(searchString));
+                }
+
+                switch (sortOrder)
+                {
+                    case "Name":
+                        branches = branches.OrderBy(b => b.Name);
+                        break;
+                    case "name_desc":
+                        branches = branches.OrderByDescending(b => b.Name);
+                        break;
+                    case "Location":
+                        branches = branches.OrderBy(b => b.Location);
+                        break;
+                    case "location_desc":
+                        branches = branches.OrderByDescending(b => b.Location);
+                        break;
+                    default:
+                        branches = branches.OrderBy(b => b.Name);
+                        break;
+                }
+
+                int pageSize = 5;
+                return View(await PaginatedList<Branch>.CreateAsync(branches.AsNoTracking(), pageNumber ?? 1, pageSize));
+            }
         }
 
         // GET: Branches/Details/5

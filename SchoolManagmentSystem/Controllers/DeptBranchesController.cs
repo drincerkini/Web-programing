@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using SchoolManagmentSystem.Data;
 using SchoolManagmentSystem.Models;
@@ -20,10 +21,56 @@ namespace SchoolManagmentSystem.Controllers
         }
 
         // GET: DeptBranches
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string searchString, string currentFilter, int? pageNumber)
         {
-            var applicationDbContext = _context.DeptBranch.Include(d => d.Branch).Include(d => d.Department);
-            return View(await applicationDbContext.ToListAsync());
+            {
+                ViewData["CurrentSort"] = sortOrder;
+                ViewData["DeptSortParm"] = sortOrder == "Department" ? "department_desc" : "Department";
+                ViewData["BranchSortParm"] = sortOrder == "Branch" ? "branches_desc" : "Branch";
+
+                if (searchString != null)
+                {
+                    pageNumber = 1;
+                }
+                else
+                {
+                    searchString = currentFilter;
+                }
+
+                ViewData["CurrentFilter"] = searchString;
+
+
+                var deptbranches = from d in _context.DeptBranch
+                              select d;
+
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                    deptbranches = deptbranches.Where(d => d.Branch.Name.Contains(searchString)
+                    || d.Department.Name.Contains(searchString));
+                }
+
+                switch (sortOrder)
+                {
+                    case "Branch":
+                        deptbranches = deptbranches.OrderBy(d => d.Branch);
+                        break;
+                    case "branches_desc":
+                        deptbranches = deptbranches.OrderByDescending(d => d.Branch);
+                        break;
+                    case "Department":
+                        deptbranches = deptbranches.OrderBy(d => d.Department);
+                        break;
+                    case "department_desc":
+                        deptbranches = deptbranches.OrderByDescending(d => d.Department);
+                        break;
+                    default:
+                        deptbranches = deptbranches.OrderBy(d => d.Branch);
+                        break;
+                }
+
+                int pageSize = 5;
+                return View(await PaginatedList<DeptBranch>.CreateAsync(deptbranches.Include(d => d.Branch ).Include(d=>d.Department).AsNoTracking(), pageNumber ?? 1, pageSize));
+            }
         }
 
         // GET: DeptBranches/Details/5
