@@ -29,10 +29,12 @@
             <div asp-validation-summary="All" class="text-danger"></div>
         </div>
         <div class="card-footer">
-            <input type="submit" value="Update" class="btn btn-primary"
-                   style="width:auto" />
+            <input type="submit" value="Update" class="btn"
+                   style="width:auto;
+                   background-color:#2c4366 ;color:white;"
+                   />
             <a asp-action="ListUsers" asp-route-id="@ViewBag.userId"
-               class="btn btn-primary" style="width:auto">Cancel</a>
+               class="btn" style="width:auto; background-color:#2c4366 ;color:white;">Cancel</a>
         </div>
     </div>
 </form>
