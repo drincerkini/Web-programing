@@ -81,10 +81,11 @@
              </th>
             <td>
                     <a class="btn btn-ligt text-secondary" asp-action="ProfAssistList" asp-route-id="@item.ID">Assistants</a>|
-                    @(User.IsInRole("Admin")){
-                    <a class="btn btn-ligt text-secondary" asp-action="Edit" asp-route-id="@item.ID">Edit</a>|
-                    <a class="btn btn-ligt text-secondary" asp-action="Details" asp-route-id="@item.ID">Details</a>|
-                    <a class="btn btn-ligt text-danger" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                    @if (User.IsInRole("Admin"))
+                    {
+                                        <a class="btn btn-ligt text-secondary" asp-action="Edit"    asp-route-id="@item.ID">Edit</a> 
+                                        <a class="btn btn-ligt text-secondary" asp-action="Details" asp-route-id="@item.ID">Details</a>
+                                        <a class="btn btn-ligt text-danger"    asp-action="Delete"  asp-route-id="@item.ID">Delete</a>
                     }
             </td>
         </tr>

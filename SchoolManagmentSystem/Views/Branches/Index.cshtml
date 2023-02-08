@@ -55,10 +55,11 @@
                 @Html.DisplayFor(modelItem => item.Location)
             </td>
             <td>
-                    @(User.IsInRole("Admin")){
-                <a  class="btn btn-ligt text-secondary" asp-action="Edit" asp-route-id="@item.BranchID">Edit</a> |
-                <a  class="btn btn-ligt text-secondary" asp-action="Details" asp-route-id="@item.BranchID">Details</a> |
-                <a  class="btn btn-ligt text-danger"    asp-action="Delete" asp-route-id="@item.BranchID">Delete</a>
+                    @if (User.IsInRole("Admin"))
+                    {
+                                        <a class="btn btn-ligt text-secondary" asp-action="Edit"    asp-route-id="@item.BranchID">Edit</a> 
+                                        <a class="btn btn-ligt text-secondary" asp-action="Details" asp-route-id="@item.BranchID">Details</a>
+                                        <a class="btn btn-ligt text-danger"    asp-action="Delete"  asp-route-id="@item.BranchID">Delete</a>
                     }
             </td>
         </tr>
