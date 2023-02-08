@@ -22,41 +22,66 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                       
+
+
                         @if (User.Identity.IsAuthenticated)
+
                         {
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item mx-10">
+                                    <a class="nav-link text-dark" asp-area="Administrator" asp-controller="Adm" asp-action="Index">Dashboard</a>
+                                </li>
+                            }
 
 
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Departments" asp-action="Index">Departments</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Professors" asp-action="Index">Professors</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Students" asp-action="Index">Students</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Assistants" asp-action="Index">Assistants</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Courses" asp-action="Index">Courses</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Enrollments" asp-action="Index">Enrollments</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="Administrator" asp-controller="Adm" asp-action="Index">Admins</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Branches" asp-action="Index">Branches</a>
-                            </li>
-                            <li class="nav-item">
-                                 <a class="nav-link text-dark" asp-area="" asp-controller="Transcripts" asp-action="Index">Transcript</a>
-                              </li>
+
+                            <!-- Example single danger button -->
+                            <div class="btn-group">
+                                <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    University
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Departments" asp-action="Index">Departments</a>
+                                    </li>
+                                    <li>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Branches" asp-action="Index">Branches</a>
+                                    </li>
+                                    <li>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="DeptBranches" asp-action="Index">Deptartments & Branches</a>
+                                    </li>
+                                    <li>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Professors" asp-action="Index">Professors</a>
+                                    </li>
+                                    <li>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Students" asp-action="Index">Students</a>
+                                    </li>
+                                    <li>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Assistants" asp-action="Index">Assistants</a>
+                                    </li>
+
+                                </ul>
+                            </div>
+
+                            <!-- Example single danger button -->
+                            <div class="btn-group">
+                                <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Students Interests
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Courses" asp-action="Index">Courses</a>
+                                    </li>
+                                    <li>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Enrollments" asp-action="Index">Enrollments</a>
+                                    </li>
+                                    <li>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Transcripts" asp-action="Index">Transcripts</a>
+                                    </li>
+                                </ul>
+                            </div>
+
                         }
                     </ul>
                     <partial name="_LoginPartial" />
