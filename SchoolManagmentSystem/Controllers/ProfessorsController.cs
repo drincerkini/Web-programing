@@ -195,7 +195,6 @@ namespace SchoolManagmentSystem.Controllers
             }
 
             var professor = await _context.Professors
-                .Include(professor=>professor.ID)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (professor == null)
             {

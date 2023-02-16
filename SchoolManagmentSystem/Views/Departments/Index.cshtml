@@ -7,9 +7,11 @@
 <h1 class="text-center">Departments</h1>
 
 <div class="container d-flex justify-content-between">
-<p>
-    <a asp-action="Create">Create New Department</a>
-</p>
+    <p>
+        <button class="btn btn btn-outline-light">
+            <a class="btn btn-outline-light text-primary" asp-action="Create">Create New Department</a>
+        </button>
+    </p>
 
 <form asp-action="Index" method="get">
     @*<div class="form-actions no-color">

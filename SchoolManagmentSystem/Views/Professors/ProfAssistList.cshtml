@@ -10,7 +10,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FullName)
+                @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Surname)
@@ -23,7 +23,7 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.FullName)
+                    @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Surname)
@@ -32,3 +32,8 @@
         }
     </tbody>
 </table>
+<div>
+    <button class="btn btn btn-light">
+        <a class="btn btn-ligt text-secondary" asp-action="Index">Back to List</a>
+    </button>
+</div>

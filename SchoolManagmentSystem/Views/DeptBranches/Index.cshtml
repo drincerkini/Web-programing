@@ -9,9 +9,11 @@
 
 <div class="container d-flex justify-content-between">
 
-<p>
-    <a asp-action="Create">Create New Relation</a>
-</p>
+    <p>
+        <button class="btn btn btn-outline-light">
+            <a class="btn btn-outline-light text-primary" asp-action="Create">Create New Relation</a>
+        </button>
+    </p>
 
 
 <form asp-action="Index" method="get">
@@ -23,7 +25,6 @@
             Search
         </button>
     </div>
-            <a asp-action="Index">Back to Full List</a>
 </form>
 </div>
 
