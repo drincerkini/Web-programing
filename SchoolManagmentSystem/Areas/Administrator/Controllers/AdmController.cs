@@ -152,7 +152,7 @@ namespace SchoolManagmentSystem.Areas.Administrator.Controllers
                 ModelState.AddModelError("", "Cannot add selected roles to user");
                 return View(model);
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("ListUsers");
         }
 
 

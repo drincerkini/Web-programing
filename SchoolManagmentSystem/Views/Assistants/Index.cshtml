@@ -4,26 +4,39 @@
     ViewData["Title"] = "Index";
 }
 
-<div class="container">
-    <div class="jumbotron">
-        <h1>Assistants List</h1>
-    </div>
-</div>
+<h1 class="text-center">Assistants</h1>
+
+<div class="container d-flex justify-content-between">
+
+
 
 <p>
-    <a asp-action="Create">Create New</a>
+        <button class="btn btn btn-outline-light">
+            <a class="btn btn-outline-light text-primary" asp-action="Create">Create New Assistant</a>
+        </button>
 </p>
 
 
 <form asp-action="Index" method="get">
-    <div class="form-actions no-color">
+   @* <div class="form-actions no-color">
         <p>
             Find Assistant: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
             <input type="submit" value="Search" class="btn btn-default" /> |
-            <a asp-action="Index">Back to Full List</a>
         </p>
     </div>
+*@
+    <div class="input-group">
+        <div class="form-outline">
+            <input type="search" id="form1" class="form-control" name="SearchString" value="@ViewData["CurrentFilter"]" placeholder="Search Assistants"/>
+        </div>
+        <button type="submit" class="btn btn-light">
+            Search
+        </button>
+    </div>
+       
+
 </form>
+</div>
 
 <table class="table table-striped">
     <thead>
@@ -47,9 +60,8 @@
                 @Html.DisplayNameFor(model => model[0].Address)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model[0].Professor.FullName)
+                @Html.DisplayNameFor(model => model[0].Professor)
             </th>
-            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -78,10 +90,11 @@
                     @Html.DisplayFor(modelItem => item.Professor.FullName)
                 </td>
                 <td>
-                    @(User.IsInRole("Admin")){
-                    <a class="btn btn-ligt text-secondary" asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                    <a class="btn btn-ligt text-secondary" asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                    <a class="btn btn-ligt text-danger" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                    @if (User.IsInRole("Admin"))
+                    {
+                                        <a class="btn btn-ligt text-secondary" asp-action="Edit"    asp-route-id="@item.ID">Edit</a> 
+                                        <a class="btn btn-ligt text-secondary" asp-action="Details" asp-route-id="@item.ID">Details</a>
+                                        <a class="btn btn-ligt text-danger"    asp-action="Delete"  asp-route-id="@item.ID">Delete</a>
                     }
                 </td>
             </tr>

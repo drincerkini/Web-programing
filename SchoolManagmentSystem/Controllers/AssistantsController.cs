@@ -192,7 +192,6 @@ namespace SchoolManagmentSystem.Controllers
             }
 
             var assistant = await _context.Assistants
-                .Include(assistant => assistant.ID)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (assistant == null)
             {
