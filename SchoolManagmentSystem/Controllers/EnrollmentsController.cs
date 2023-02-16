@@ -2,14 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using SchoolManagmentSystem.Data;
 using SchoolManagmentSystem.Models;
 
 namespace SchoolManagmentSystem.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class EnrollmentsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -19,11 +22,57 @@ namespace SchoolManagmentSystem.Controllers
             _context = context;
         }
 
+        [AllowAnonymous]
         // GET: Enrollments
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string searchString, string currentFilter, int? pageNumber)
         {
-            var applicationDbContext = _context.Enrollments.Include(e => e.Course).Include(e => e.Student);
-            return View(await applicationDbContext.ToListAsync());
+            {
+                ViewData["CurrentSort"] = sortOrder;
+                ViewData["StudentSortParm"] = sortOrder == "Student" ? "student_desc" : "Student";
+                ViewData["CourseSortParm"] = sortOrder == "Course" ? "course_desc" : "Course";
+
+                if (searchString != null)
+                {
+                    pageNumber = 1;
+                }
+                else
+                {
+                    searchString = currentFilter;
+                }
+
+                ViewData["CurrentFilter"] = searchString;
+
+
+                var enrollments = from e in _context.Enrollments
+                              select e;
+
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                    enrollments = enrollments.Where(e => e.Student.Name.Contains(searchString) || e.Course.Title.Contains(searchString));
+                }
+
+                switch (sortOrder)
+                {
+                    case "Student":
+                        enrollments = enrollments.OrderBy(e => e.Student.Name);
+                        break;
+                    case "student_desc":
+                        enrollments = enrollments.OrderByDescending(e => e.Student.Name);
+                        break;
+                    case "Course":
+                        enrollments = enrollments.OrderBy(e => e.Course.Title);
+                        break;
+                    case "course_desc":
+                        enrollments = enrollments.OrderByDescending(e => e.Course.Title);
+                        break;
+                    default:
+                        enrollments = enrollments.OrderBy(e => e.Course.Title);
+                        break;
+                }
+
+                int pageSize = 5;
+                return View(await PaginatedList<Enrollment>.CreateAsync(enrollments.Include(e => e.Course).Include(e => e.Student).AsNoTracking(), pageNumber ?? 1, pageSize));
+            }
         }
 
         // GET: Enrollments/Details/5

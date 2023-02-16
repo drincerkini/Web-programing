@@ -1,22 +1,36 @@
-@model IEnumerable<SchoolManagmentSystem.Models.Enrollment>
+@model PaginatedList<SchoolManagmentSystem.Models.Enrollment>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Enrollments</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Create New Enrollment</a>
 </p>
+
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find Enrollments: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
+            <input type="submit" value="Search" class="btn btn-default" /> |
+            <a asp-action="Index">Back to Full List</a>
+        </p>
+    </div>
+</form>
+
+
 <table class="table table-light table-striped">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Course)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["StudentSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">@Html.DisplayNameFor(model => model[0].Student)</a>
+
             </th>
              <th>
-                @Html.DisplayNameFor(model => model.Student)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["CourseSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">@Html.DisplayNameFor(model => model[0].Course)</a>
+
             </th>
             <th></th>
         </tr>
@@ -25,17 +39,38 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Course.Title)
+                    @Html.DisplayFor(modelItem => item.Student.FullName)
             </td>           
              <td>
-                @Html.DisplayFor(modelItem => item.Student.FullName)
+                @Html.DisplayFor(modelItem => item.Course.Title)
             </td>
             <td>
+                    @(User.IsInRole("Admin")){
                 <a class="btn btn-ligt text-secondary" asp-action="Edit" asp-route-id="@item.EnrollmentID">Edit</a> |
                 <a class="btn btn-ligt text-secondary" asp-action="Details" asp-route-id="@item.EnrollmentID">Details</a> |
                 <a class="btn btn-ligt text-danger" asp-action="Delete" asp-route-id="@item.EnrollmentID">Delete</a>
+                    }
             </td>
         </tr>
 }
     </tbody>
 </table>
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @prevDisabled">
+    Previous
+</a>
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @nextDisabled">
+    Next
+</a>
